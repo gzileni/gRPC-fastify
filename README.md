@@ -9,7 +9,7 @@ In questo post aggiungeremo ad un Server REST sviluppato con [Fastify](https://w
 L'archittetura prevede alcuni servizi che ricevono dati da altri microservizi esterni e con una connessione ad un database PostGres remoto.
 
 <center>
-<img src="/assets/img/posts/gRPC.jpg" style="width: 50%; margin: 20px;" />
+<img src="https://github.com/gzileni/gzileni.github.io/raw/master/assets/img/posts/gRPC.jpg" style="width: 50%; margin: 20px;" />
 </center>
 
 ## Introduzione a gRPC
