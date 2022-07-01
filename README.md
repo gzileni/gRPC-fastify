@@ -1,13 +1,4 @@
----
-layout: post
-title: Fastify + gRPC 
-subtitle: Sviluppare API REST super veloci con gRPC e Fastify con NodeJS
-gh-repo: gzileni/gRPC-fastify
-gh-badge: [star, fork, follow]
-thumbnail-img: /assets/img/fastify_gRPC_thumb.jpg
-share-img: /assets/img/fastify_gRPC_thumb.jpg
-tags: [gRPC, API, REST, Fastify, NodeJS]
----
+# gRPC + Fastify
 
 Spesso ci siamo trovati difronte al problema di come rendere performati i nostri progetti API REST, soprattutto quando le applicazioni client richiedono una mole di dati notevole, come nel caso di grossi gestionali, con query SQL complesse eseguite su un database remoto.
 
