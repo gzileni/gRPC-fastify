@@ -10,13 +10,16 @@ module.exports = async (fastify, opts) => {
     fastify.addHook('preHandler', (request, reply, done) => {
 
         if (request.method === 'GET') {
+
+            const p = {
+                token: request.user.token,
+                where: request.params.username,
+                page: request.query.page,
+                rows: request.query.rows
+            };
+
             if (fastify.gRPC.client !== null && fastify.gRPC.client !== undefined) {
-                fastify.gRPC.client.getPlanning({
-                    token: request.user.token,
-                    where: request.params.username,
-                    page: request.query.page,
-                    rows: request.query.rows
-                }, (error, response) => {
+                fastify.gRPC.client.getPlanning(p, (error, response) => {
 
                     if (error) {
                         fastify.log.error(error);
@@ -27,7 +30,7 @@ module.exports = async (fastify, opts) => {
                     }
                 })
             } else {
-                Planning.get(request.user.token, request.params.username, request.query.page, request.query.rows).then(response => {
+                Planning.get(p).then(response => {
                     planning = response;
                     done();
                 }).catch(error => {

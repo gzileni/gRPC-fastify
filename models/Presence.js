@@ -48,27 +48,29 @@ const init = async (sequelize) => {
 /**
  * 
  */
-const get = async (where, page, rows) => {
+const get = async (payload) => {
     
-    const response = where === null || where === undefined ?
+    const response = where === null || payload.where === undefined ?
         await Presence.findAll() :
         await Presence.findAll({
             where: {
-                presence: where
+                presence: payload.where
             }
         });
     
     return where !== null && where !== undefined ?
            { data: response } :
-           { data: utils.pagination(response, page, rows) }
+           { data: utils.pagination(response, payload.page, payload.rows) }
     
 };
 
 const get_gRPC = (call, callback) => {
 
-    const promise = get(call.request["where"], call.request["page"], call.request["rows"]);
-
-    promise.then(response => {
+    get({
+        where: call.request["where"], 
+        page: call.request["page"], 
+        rows: call.request["rows"]
+    }).then(response => {
         callback(null, response);
     }).catch(err => {
         callback(err, null);

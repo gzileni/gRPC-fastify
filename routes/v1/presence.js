@@ -10,14 +10,17 @@ module.exports = async (fastify, opts) => {
     fastify.addHook('preHandler', (request, reply, done) => {
 
         if (request.method === 'GET') {
+
+            const p = { 
+                where: request.params.presence,
+                page: request.query.page ? parseInt(request.query.page) : 0,
+                rows: request.query.rows ? parseInt(request.query.rows) : 0
+            }
+
             if (fastify.gRPC.client !== null && fastify.gRPC.client !== undefined) {
                 /** gRPC */
                 fastify.log.info('boost gRPC ....');
-                fastify.gRPC.client.getPresence({ 
-                    where: request.params.presence,
-                    page: request.query.page ? parseInt(request.query.page) : 0,
-                    rows: request.query.rows ? parseInt(request.query.rows) : 0
-                }, (error, data) => {
+                fastify.gRPC.client.getPresence(p, (error, data) => {
                     
                     if (error) {
                         console.error(error);
@@ -30,7 +33,7 @@ module.exports = async (fastify, opts) => {
                 });
             } else {
 
-                Presence.get(request.params.presence).then(result => {
+                Presence.get(p).then(result => {
                     presence = result;
                     done();
                 }).catch(err => {

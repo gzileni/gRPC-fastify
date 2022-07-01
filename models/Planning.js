@@ -40,17 +40,17 @@ const init = async (sequelize) => {
 /**
  * 
  */
-const get = async (token, where, page, rows) => {
+const get = async (payload) => {
 
     const presence = await Presence.get();
-    const employees = await api.getEmployees(token);
+    const employees = await api.getEmployees({ token: payload.token });
 
     const response = where === null || where === undefined ?
                      await Planning.findAll() :
                      await Planning.findAll({
                         where: {
                             id_employee: _.find(employees.data, item => { 
-                                return item.username.toUpperCase() === where.toUpperCase() 
+                                return item.username.toUpperCase() === payload.where.toUpperCase() 
                             }).id
                         }
                      });
@@ -68,7 +68,7 @@ const get = async (token, where, page, rows) => {
 
     return where !== null && where !== undefined ?
            { data: response_mapped } :
-           { data: utils.pagination(response_mapped, page, rows) }
+           { data: utils.pagination(response_mapped, payload.page, payload.rows) }
 };
 
 /**
@@ -80,7 +80,7 @@ const get = async (token, where, page, rows) => {
 const _get_payload = async (payload) => {
 
     const presence = await Presence.get(payload.presence);
-    const employee = await api.getEmployees(payload.token, payload.username);
+    const employee = await api.getEmployees({ toekn: payload.token, where: payload.username});
 
     return {
         id_employee: employee.data[0].id,
@@ -135,9 +135,12 @@ const del = async (payload) => {
 
 const get_gRPC = (call, callback) => {
 
-    const promise = get(call.request["token"], call.request["where"], call.request["page"], call.request["rows"]);
-
-    promise.then(response => {
+    get({ 
+        toke: call.request["token"], 
+        where: call.request["where"], 
+        page: call.request["page"], 
+        rows: call.request["rows"]
+    }).then(response => {
         callback(null,response);
     }).catch(err => {
         callback(err, null);

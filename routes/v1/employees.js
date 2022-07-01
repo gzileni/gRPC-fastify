@@ -8,13 +8,16 @@ module.exports = async (fastify, opts) => {
 
     fastify.addHook('preHandler', (request, reply, done) => {
         if (request.method === 'GET') {
+
+            const payload = {
+                token: request.user.token,
+                where: request.params.username,
+                page: request.query.page,
+                rows: request.query.rows
+            }
+
             if (fastify.gRPC.client !== null && fastify.gRPC.client !== undefined) {
-                fastify.gRPC.client.getEmployees({
-                    token: request.user.token,
-                    where: request.params.username,
-                    page: request.query.page,
-                    rows: request.query.rows
-                }, (error, response) => {
+                fastify.gRPC.client.getEmployees(payload, (error, response) => {
 
                     if (error) {
                         fastify.log.error(error);
@@ -25,7 +28,7 @@ module.exports = async (fastify, opts) => {
                     }
                 })
             } else {
-                api.getEmployees(request.user.token, request.params.username, request.query.page, request.query.rows).then(response => {
+                api.getEmployees(payload).then(response => {
                     employees = response;
                     done();
                 }).catch(error => {

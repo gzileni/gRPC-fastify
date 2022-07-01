@@ -4,63 +4,49 @@ const utils = require('../lib/utils');
 
 /**
  * 
- * @param {*} response 
- * @param {*} item 
- * @returns 
- */
-const _map_employees = (data) => {
-
-    return _.sortBy(_.map(data, user => {
-        return {
-            id: user.id,
-            name: user.displayText,
-            username: user.username,
-            role: user.livelloRecord.descrizione
-        }
-    }), 'id');
-
-}
-
-/**
- * 
  * @param {*} token 
  * @returns 
  */
-const getEmployees = async (token, where, page, rows) => {
+const getEmployees = async (payload) => {
 
-    let data = JSON.stringify({
-        "data": {
-            "entity": "utenti",
-            "command": "List"
-        }
-    });
+    /**
+     * TODO: connect to another gRPC Server
+     */
 
+
+    /**
+     * connect to externale Server REST API 
+     */
     var config = {
-        method: 'post',
+        method: 'GET',
         url: process.env.API,
         headers: { 
-            'X-AuthToken': token, 
+            'X-AuthToken': payload.token, 
             'Content-Type': 'application/json'
-        },
-        data : data
+        }
     };
 
     const response = await axios(config);
-    const response_mapped = _map_employees(response.data.utentiList);
-    return { data: where !== null && where !== undefined ?
-             [_.find(response_mapped, item => { return item.username === where })] :
-             utils.pagination(response_mapped, page, rows) }
+    /** TODO: apply where condition if exists */
+
+    /** return data with pagination */
+    return { data: utils.pagination(response.data, payload.page, payload.rows) }
 
 };
 
 /**
- * 
+ * gRPC services
  * @param {*} call 
  * @param {*} callback 
  */
 const getEmployees_gRPC = (call, callback) => {
 
-    getEmployees(call.request["token"], call.request["where"], call.request["page"], call.request["rows"]).then(response => {
+    getEmployees({
+        token: call.request["token"],
+        where: call.request["where"],
+        page: call.request["page"],
+        rows: call.request["rows"]
+    }).then(response => {
         callback(null, response);
     }).catch(err => {
         callback(err, null);
