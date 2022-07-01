@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  db:
+    container_name: postgres-db-${DOCKER_ENVIRONMENT}
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE_NAME}
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db:/var/lib/postgresql/data
+
+  pgAdmin:
+    # timereporttensol-db.hextra.dev
+    container_name: postgres-pgadmin-${DOCKER_ENVIRONMENT}
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - '8209:80'
+
+  planning:
+    container_name: planning-${DOCKER_ENVIRONMENT}
+    image: planning
+    restart: always
+    environment:
+      - API=${API}
+      - SECRET=${SECRET}
+      - GRPC_SERVER="0.0.0.0"
+      - GRPC_PORT="50051"
+    ports:
+      - '3000:3000'
+      - '50051:50051'
+      
+volumes:
+  db:
+    driver: local
