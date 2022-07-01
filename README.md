@@ -423,7 +423,7 @@ npm run dev
 ```
 
 <center>
-<img src="/assets/img/posts/gRPC2.png" style="width: 100%; margin: 20px;" />
+<img src="/assets/img/posts/gRPC2.png](https://github.com/gzileni/gzileni.github.io/raw/master/assets/img/posts/gRPC2.png" style="width: 100%; margin: 20px;" />
 </center>
 
 
