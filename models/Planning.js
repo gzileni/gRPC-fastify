@@ -45,7 +45,7 @@ const get = async (payload) => {
     const presence = await Presence.get();
     const employees = await api.getEmployees({ token: payload.token });
 
-    const response = where === null || where === undefined ?
+    const response = payload.where === null || payload.where === undefined ?
                      await Planning.findAll() :
                      await Planning.findAll({
                         where: {

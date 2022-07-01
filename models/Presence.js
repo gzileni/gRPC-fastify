@@ -50,7 +50,7 @@ const init = async (sequelize) => {
  */
 const get = async (payload) => {
     
-    const response = where === null || payload.where === undefined ?
+    const response = payload.where === null || payload.where === undefined ?
         await Presence.findAll() :
         await Presence.findAll({
             where: {
