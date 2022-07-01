@@ -1,0 +1,78 @@
+
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+package planning;
+
+service Planning {
+
+    /** Employees */
+    rpc GetEmployees(Request) returns (Response_Employee) {}
+    
+    /** Employee Presence */
+    rpc GetPresence(Request) returns (Response_Presence) {}
+    rpc PostPresence(Presence) returns (Response_CRUD) {}
+    rpc PutPresence(Presence) returns (Response_CRUD) {}
+    rpc DelPresence(Presence) returns (Response_CRUD) {} 
+
+    /** Vehicles */
+    rpc GetPlanning(Request) returns (Response_Planning) {}
+    rpc PostPlanning(Planning_Payload) returns (Response_CRUD) {}
+    rpc PutPlanning(Planning_Payload) returns (Response_CRUD) {}
+    rpc DelPlanning(Planning_Payload) returns (Response_CRUD) {} 
+
+}
+
+message Employee {
+    int32 id = 1;
+    string name = 2;
+    string username = 3;
+    string role = 4;
+}
+
+message Response_Employee {
+    repeated Employee data = 1;
+}
+
+message Request {
+    optional string token = 1;
+    optional string where = 2;
+    optional int32 id = 3;
+    optional string name = 4;
+    optional int32 page = 5;
+    optional int32 rows = 6;
+}
+
+message Presence {
+    int32 id = 1;
+    string presence = 2;
+}
+
+message Response_Presence {
+    repeated Presence data = 1;
+}
+
+message Planning_Message {
+    int32 id = 1;
+    int32 id_employee = 2;
+    int32 id_presence = 3;
+    string date = 4;
+    string employee = 5;
+    string presence = 6;
+}
+
+message Planning_Payload {
+    optional int32 id = 1;
+    optional string token = 2;
+    string username = 3;
+    string presence = 4;
+    string date = 5;
+}
+
+message Response_Planning {
+    repeated Planning_Message data = 1;
+}
+
+message Response_CRUD {
+    string result = 1;
+    string error = 2;
+}
