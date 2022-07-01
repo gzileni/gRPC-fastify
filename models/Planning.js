@@ -42,7 +42,7 @@ const init = async (sequelize) => {
  */
 const get = async (payload) => {
 
-    const presence = await Presence.get();
+    const presence = await Presence.get({ token: payload.token });
     const employees = await api.getEmployees({ token: payload.token });
 
     const response = payload.where === null || payload.where === undefined ?
