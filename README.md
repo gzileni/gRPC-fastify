@@ -12,11 +12,9 @@ L'archittetura prevede alcuni servizi che ricevono dati da altri microservizi es
 <img src="https://github.com/gzileni/gzileni.github.io/raw/master/assets/img/posts/gRPC.jpg" style="width: 50%; margin: 20px;" />
 </center>
 
-## Introduzione a gRPC
+## [Introduzione a gRPC](https://www.youtube.com/embed/72mPlAfHIjs)
 
 Innanzitutto facciamo una breve introduzione a **gRPC**, un framework RPC ad utilizzo universale compatibile con diversi linguaggi di programmazione e pensato per ottenere elevate prestazioni grazie al _[protocol buffer](https://developers.google.com/protocol-buffers)_ su HTTP/2 sviluppato da Google che permette di serializzare i dati strutturati, come JSON o XML, tranne per il fatto che gRPC occupa pochissimo spazio ed è molto più veloce. _protocol buffer_ è indipendente dal linguaggio di programmazione ed è definito da un linguaggio di definizione creato nei file _.proto_.
-
-<iframe width="100%" height="480" src="https://www.youtube.com/embed/72mPlAfHIjs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Installazione
 
@@ -423,7 +421,7 @@ npm run dev
 ```
 
 <center>
-<img src="/assets/img/posts/gRPC2.png](https://github.com/gzileni/gzileni.github.io/raw/master/assets/img/posts/gRPC2.png" style="width: 100%; margin: 20px;" />
+<img src="https://github.com/gzileni/gzileni.github.io/raw/master/assets/img/posts/gRPC2.png" style="width: 100%; margin: 20px;" />
 </center>
 
 
