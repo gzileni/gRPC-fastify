@@ -66,7 +66,7 @@ const get = async (payload) => {
         }
     });
 
-    return where !== null && where !== undefined ?
+    return payload.where !== null && payload.where !== undefined ?
            { data: response_mapped } :
            { data: utils.pagination(response_mapped, payload.page, payload.rows) }
 };

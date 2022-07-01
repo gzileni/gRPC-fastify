@@ -58,7 +58,7 @@ const get = async (payload) => {
             }
         });
     
-    return where !== null && where !== undefined ?
+    return payload.where !== null && payload.where !== undefined ?
            { data: response } :
            { data: utils.pagination(response, payload.page, payload.rows) }
     
